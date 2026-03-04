@@ -1,16 +1,45 @@
-# React + Vite
+# 🎓 Uni-Elan | University Announcement Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, high-performance web application designed to centralize university communications. The platform allows students to view official updates while providing managers with a robust dashboard to organize department-specific announcements.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Key Features
 
-## React Compiler
+* **Role-Based Access Control:** Dynamic UI that switches features based on user roles (`user` vs. `manager`).
+* **Announcement Management:** Full CRUD suite for managers (Create, Read, Update, Delete) with interactive modals.
+* **Smart Department Filtering:** Real-time filtering system for various departments (Rectorate, IT Center, Student Council).
+* **Optimized Compact UI:** Thoughtfully designed announcement cards that prevent text overflow and maintain visual consistency.
+* **Performance Driven:** Integrated loading states with custom spinners and hardware-accelerated CSS animations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* **Framework:** [React.js](https://reactjs.org/)
+* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+* **Typography:** Open Sans (configured via Google Fonts)
+* **Icons:** Heroicons (SVG)
+* **State Management:** React Hooks (`useState`, `useEffect`)
+
+---
+
+## 🎨 Design & CSS Optimizations
+
+### Typography
+We use **Open Sans** for its high legibility in academic environments. It is integrated directly into the Tailwind `@theme` engine for consistent utility-first usage.
+
+### CSS Architecture (v4 Standards)
+To ensure zero build warnings and maximum compatibility, our `index.css` follows a strict PostCSS-compliant hierarchy:
+1.  **Directives:** `@import "tailwindcss";` is placed at the absolute top.
+2.  **External Assets:** Font imports follow immediately after Tailwind.
+3.  **Animations:** Global keyframes (like `fade-in-up`) are defined outside the theme block for stability.
+4.  **Theming:** Custom variables are mapped within the `@theme` rule to avoid "unknown rule" errors in modern environments.
+
+---
+
+## 🚀 Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone
