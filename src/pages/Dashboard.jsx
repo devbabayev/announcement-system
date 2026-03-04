@@ -6,17 +6,14 @@ import AdDetailsModal from '../components/AdDetailsModal';
 import Spinner from '../components/Spinner';
 
 const Dashboard = () => {
-  // LocalStorage-dən istifadəçi rolunu götürürük
   const userRole = localStorage.getItem('role') || 'user';
   
-  // State idarəetməsi
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAd, setSelectedAd] = useState(null); // Detal modalı üçün
-  const [adToEdit, setAdToEdit] = useState(null);   // Redaktə modalı üçün
+  const [selectedAd, setSelectedAd] = useState(null);
+  const [adToEdit, setAdToEdit] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDept, setSelectedDept] = useState('Hamısı');
 
-  // Nümunə universitet məlumatları
   const universityAds = [
     { 
       id: 1, 
@@ -40,7 +37,7 @@ const Dashboard = () => {
     },
     { 
       id: 3, 
-      title: 'Yeni Laboratoriya Avadanlıqlarının Təqdimatı', 
+      title: 'Yeni Laboratoriya Avadanlıqlarının Təqdimatı Və Gələcək Texnologiyalar Seminarı', 
       author: 'IT Mərkəzi', 
       dept: 'IT Mərkəzi', 
       type: 'Tədbir', 
@@ -55,7 +52,6 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Filtrləmə məntiqi
   const filteredAds = selectedDept === 'Hamısı' 
     ? universityAds 
     : universityAds.filter(ad => ad.dept === selectedDept);
@@ -64,87 +60,90 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
 
-      {/* ƏSAS MƏZMUN (flex-grow footer-i aşağı itələmək üçündür) */}
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         
-        {/* BAŞLIQ VƏ SÜZGƏC PANELI */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-          <div>
-            <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Universitet Elanları</h2>
-            <div className="mt-3 flex items-center space-x-3">
-              <span className="text-sm font-bold text-gray-400 uppercase tracking-wider">Struktur:</span>
+        {/* Üst Panel */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8 opacity-0 animate-fade-in-up">
+          <div className="space-y-5 text-left">
+            <h2 className="text-4xl font-black text-gray-900 tracking-tight">Universitet Elanları</h2>
+            <div className="relative inline-block">
               <select 
                 value={selectedDept} 
                 onChange={(e) => setSelectedDept(e.target.value)} 
-                className="bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl p-2.5 outline-none focus:ring-2 focus:ring-blue-500 shadow-sm cursor-pointer transition-all"
+                className="appearance-none bg-white border-2 border-gray-100 text-gray-700 font-bold rounded-2xl py-3.5 pl-6 pr-14 outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 shadow-sm cursor-pointer transition-all hover:bg-gray-50"
               >
                 <option value="Hamısı">Bütün Bölmələr</option>
                 <option value="Rektorat">Rektorat</option>
                 <option value="IT Mərkəzi">IT Mərkəzi</option>
                 <option value="Tələbə Şurası">Tələbə Şurası</option>
-                <option value="Kitabxana">Kitabxana</option>
               </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+              </div>
             </div>
           </div>
           
-          {/* Yalnız Manager Yeni Elan Düyməsini Görür */}
           {userRole === 'manager' && (
             <button 
               onClick={() => { setAdToEdit(null); setIsModalOpen(true); }} 
-              className="px-6 py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all cursor-pointer transform active:scale-95"
+              className="px-8 py-4 bg-blue-600 text-white font-black rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-200 transition-all cursor-pointer transform active:scale-95"
             >
               + Yeni Elan Paylaş
             </button>
           )}
         </div>
 
-        {/* ELANLAR ŞƏBƏKƏSİ */}
+        {/* Elanlar Siyahısı */}
         {isLoading ? (
           <Spinner />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
-            {filteredAds.map((ad) => (
-              <div key={ad.id} className="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all relative group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16 text-left">
+            {filteredAds.map((ad, index) => (
+              <div 
+                key={ad.id} 
+                className="opacity-0 animate-fade-in-up bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative group flex flex-col"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
                 
-                {/* MANAGER ÜÇÜN İDARƏETMƏ DÜYMƏLƏRİ - HƏMİŞƏ GÖRÜNÜR */}
                 {userRole === 'manager' && (
-                  <div className="absolute top-4 right-4 z-10 flex space-x-2">
+                  <div className="absolute top-6 right-6 z-10 flex space-x-2">
                     <button 
                       onClick={() => { setAdToEdit(ad); setIsModalOpen(true); }} 
-                      className="p-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md border border-white/20 cursor-pointer transition-transform active:scale-90"
-                      title="Redaktə et"
+                      className="p-3 bg-white/90 backdrop-blur text-blue-600 rounded-full hover:bg-blue-600 hover:text-white shadow-lg transition-all cursor-pointer"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                     </button>
                     <button 
-                      className="p-2.5 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-md border border-white/20 cursor-pointer transition-transform active:scale-90"
-                      title="Sil"
+                      onClick={() => window.confirm("Silmək istədiyinizə əminsiniz?")}
+                      className="p-3 bg-white/90 backdrop-blur text-red-600 rounded-full hover:bg-red-600 hover:text-white shadow-lg transition-all cursor-pointer"
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                     </button>
                   </div>
                 )}
 
-                {/* ELAN ŞƏKLI */}
-                <div className="h-52 overflow-hidden">
-                  <img src={ad.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={ad.title} />
+                <div className="h-64 overflow-hidden relative">
+                  <img src={ad.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={ad.title} />
+                  <div className="absolute top-6 left-6">
+                    <span className="px-4 py-2 bg-white/95 backdrop-blur text-blue-700 text-[11px] font-black uppercase tracking-widest rounded-xl shadow-sm border border-white">
+                      {ad.dept}
+                    </span>
+                  </div>
                 </div>
 
-                {/* ELAN MƏLUMATI */}
-                <div className="p-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="text-blue-600 text-[10px] font-bold uppercase tracking-widest">{ad.dept}</p>
-                    <span className="px-2 py-0.5 bg-gray-100 text-[9px] font-bold rounded text-gray-400">{ad.date}</span>
+                <div className="p-9 flex flex-col flex-grow">
+                  <div className="flex items-center text-gray-400 text-xs font-bold mb-4">
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    {ad.date}
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 leading-tight mb-4 line-clamp-2 h-14">{ad.title}</h3>
+                  
+                  <h3 className="text-2xl font-black text-gray-900 leading-tight mb-8 flex-grow">
+                    {ad.title}
+                  </h3>
                   
                   <button 
                     onClick={() => setSelectedAd(ad)} 
-                    className="w-full py-3 bg-gray-50 text-gray-900 text-sm font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all cursor-pointer"
+                    className="w-full py-4.5 bg-gray-900 text-white text-sm font-black rounded-2xl hover:bg-blue-600 shadow-xl transition-all cursor-pointer"
                   >
                     Detallara Bax
                   </button>
@@ -155,19 +154,10 @@ const Dashboard = () => {
         )}
       </main>
 
-      {/* FOOTER */}
       <Footer />
 
-      {/* MODALLAR */}
-      <NewAdModal 
-        isOpen={isModalOpen} 
-        onClose={() => { setIsModalOpen(false); setAdToEdit(null); }} 
-        editData={adToEdit} 
-      />
-      
-      {selectedAd && (
-        <AdDetailsModal ad={selectedAd} onClose={() => setSelectedAd(null)} />
-      )}
+      <NewAdModal isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setAdToEdit(null); }} editData={adToEdit} />
+      {selectedAd && <AdDetailsModal ad={selectedAd} onClose={() => setSelectedAd(null)} />}
     </div>
   );
 };
