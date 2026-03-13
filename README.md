@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-# Announcement Management Platform — API Documentation
-
-> **Base URL:** `http://localhost:9000/api/v1`
+ **Base URL:** `http://localhost:9000/api/v1`
 >
 > **Content-Type:** `application/json` (except file uploads: `multipart/form-data`)
 >
