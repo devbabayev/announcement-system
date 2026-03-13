@@ -65,7 +65,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center cursor-pointer shrink-0" onClick={() => navigate('/')}>
             <img src="/khusu_logo.jpeg" alt="Logo" className="h-10 w-auto mr-3" />
-            <h1 className="text-xl font-bold text-gray-800 hidden sm:block">Xəzər Universiteti Elan Platformu</h1>
+            <h1 className="text-xl font-bold text-gray-800 hidden sm:block">Student Union Announcements</h1>
           </div>
 
           {/* Desktop Nav Links */}
@@ -87,15 +87,6 @@ const Navbar = () => {
 
           {/* Right side: Role badge + User Menu */}
           <div className="flex items-center space-x-3">
-            <span
-              className={`hidden sm:inline-block px-3 py-1 text-xs font-bold rounded-full ${
-                userRole === 'manager'
-                  ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                  : 'bg-green-100 text-green-700 border border-green-200'
-              }`}
-            >
-              {userRole === 'manager' ? 'Manager' : 'User'}
-            </span>
 
             {/* User dropdown */}
             <div className="relative" ref={menuRef}>
